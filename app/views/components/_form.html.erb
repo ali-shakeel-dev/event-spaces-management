@@ -1,0 +1,97 @@
+<%= form_with model: @space, local: true, multipart: true, class: "space-form mx-auto mt-4 p-6" do |form| %>
+  <!-- Image Upload Section -->
+  <div class="my-4 rounded-lg dark:bg-gray-800 dark:border-gray-700 flex flex-wrap items-center gap-4 w-full" id="image-preview-container">
+    <% if @space.images.attached? %>
+      <% @space.images.each do |image| %>
+        <div class="relative">
+          <img src="<%= url_for(image) %>" class="rounded-lg w-24 h-24 object-cover" alt="Uploaded Image">
+          <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full h-10 w-10 p-2 cursor-pointer remove-image" data-id="<%= image.id %>"></span>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Image Upload Input -->
+<div class="h-56 relative flex flex-col items-center justify-center border-[2.5px] border-[#958eee] border-dashed hover:border-blue-600 transition-colors rounded-lg bg-gray-100 hover:bg-purple-50">
+  <!-- File Input -->
+  <%= form.file_field :images, 
+                      id: "files-upload-input-box", 
+                      class: "opacity-0 absolute top-0 left-0 z-10 w-full h-full cursor-pointer", 
+                      accept: "image/*", 
+                      multiple: true %>
+  <!-- Button -->
+  <label for="files-upload-input-box" class="inline-flex items-center justify-center rounded-lg text-white bg-blue-600 hover:bg-purple-400 py-4 px-16 font-bold text-[22px] cursor-pointer">
+    Choose Files
+  </label>
+  <span class="text-grey text-base font-medium py-4">or drop your images here</span>
+</div>
+
+  <!-- Form Fields -->
+  <div class="form_input_fields max-w-sm mx-auto flex flex-col my-4">
+    <div class="mb-4">
+      <%= form.label :name, "Space Name", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :name, class: "w-full mt-1 block px-3 py-2 border border-gray-300 rounded-md shadow-sm", placeholder: "Enter space name" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :per_hour, "Rate (per hour)", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.number_field :per_hour, class: "w-full mt-1 block px-3 py-2 border border-gray-300 rounded-md shadow-sm", placeholder: "Per hour rate" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :location, "Location", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :location, class: "w-full mt-1 block px-3 py-2 border border-gray-300 rounded-md shadow-sm", placeholder: "Enter space location" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :capacity, "Capacity", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :capacity, class: "w-full mt-1 block px-3 py-2 border border-gray-300 rounded-md shadow-sm", placeholder: "Enter capacity of ppl" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :area, "Area (sq ft)", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :area, class: "w-full mt-1 block px-3 py-2 border border-gray-300 rounded-md shadow-sm", placeholder: "Enter area in sq ft" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :description, "Description", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :description, class: "w-full mt-1 block rounded-md shadow-sm p-2", placeholder: "Enter detailed description" %>
+    </div>
+
+    <div class="mt-2">
+      <%= form.submit "Create Space", class: "w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  const imagePreviewContainer = document.getElementById('image-preview-container');
+  const fileInput = document.getElementById('files-upload-input-box');
+
+  fileInput.addEventListener('change', function () {
+    const files = Array.from(fileInput.files);
+    files.forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const previewDiv = document.createElement('div');
+        previewDiv.classList.add('relative');
+
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.classList.add('rounded-lg', 'w-24', 'h-24', 'object-cover');
+
+        const removeBtn = document.createElement('span');
+        removeBtn.innerHTML = `<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'             fill='currentColor' class='bi bi-x-lg' viewBox='0 0 16 16'>
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                </svg>`;
+        removeBtn.classList.add('absolute', 'top-0', 'right-0', 'bg-red-500', 'text-white', 'rounded-full', 'p-1', 'cursor-pointer');
+        removeBtn.addEventListener('click', () => previewDiv.remove());
+
+        previewDiv.appendChild(img);
+        previewDiv.appendChild(removeBtn);
+        imagePreviewContainer.appendChild(previewDiv);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+</script>

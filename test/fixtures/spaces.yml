@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  per_hour: 1
+  location: MyString
+  capacity: 1
+  area: 1
+  description: MyString
+
+two:
+  name: MyString
+  per_hour: 1
+  location: MyString
+  capacity: 1
+  area: 1
+  description: MyString

@@ -1,0 +1,190 @@
+<div class="mx-auto py-2 my-4">
+<!-- Image Gallery -->
+<div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <!-- Main Image -->
+  <div class="lg:col-span-2">
+    <% if @space.images.attached? %>
+      <%= image_tag url_for(@space.images.first), alt: "Main Image", class: "rounded-lg w-full h-[415px] object-cover" %>
+    <% end %>
+  </div>
+
+  <!-- Additional Images -->
+  <div class="grid grid-cols-2 gap-4">
+    <% @space.images.drop(1).first(4).each_with_index do |image, index| %>
+      <%= image_tag url_for(image), alt: "Image #{index + 1}", class: "rounded-lg w-full h-[200px] object-cover" %>
+    <% end %>
+  </div>
+
+  <!-- 'See More Photos' Button -->
+  <% if @space.images.count > 5 %>
+    <div class="absolute right-10 bottom-20 w-full">
+      <button id="seeMorePhotosBtn" class="absolute buttom-0 right-0 mt-4 px-4 py-2 bg-white text-gray-700 border rounded-lg shadow hover:bg-gray-100">
+        &#128065; See More Photos
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<!-- Popup Modal -->
+<div id="photoModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50">
+  <div class="bg-white p-4 rounded-lg max-w-5xl w-full h-[80%] overflow-y-scroll relative">
+    <!-- Close Button -->
+    <button id="closeModal" class="bg-blue-600 p-2 rounded absolute top-2 right-2 text-white hover:bg-blue-700 text-2xl"></button>
+    <!-- Modal Content -->
+    <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
+      <% @space.images.each_with_index do |image, index| %>
+        <%= image_tag url_for(image), alt: "Image #{index + 1}", class: "rounded-lg w-full h-fit object-cover" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Details Section -->
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="md:col-span-2">
+      <div class="flex w-full justify-between items-center">
+        <span class="listing_further_details flex justify-between flex-col items-start w-[80%]">
+          <h1 class="text-3xl font-bold"><%=@space.name%></h1>
+          <p class="text-2xl font-bold py-1">$<%=@space.per_hour%>/hr</p>
+          <span class="listing_location flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+              <path fill-rule="evenodd" d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" />
+            </svg>
+            <h2 class="listing_title font-medium text-gray-900 font-bold"><%=@space.location%></h2>
+          </span>
+          <span class="listing_other_details flex items-center justify-center gap-2">
+            <span class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+              </svg>
+              <p class="text-gray-900"><%=@space.capacity%> ppl ppl</p>
+            </span>
+            <p class="text-gray-400">|</p>
+            <span class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                <path fill-rule="evenodd" d="M2.75 9a.75.75 0 0 1 .75.75v1.69l2.22-2.22a.75.75 0 0 1 1.06 1.06L4.56 12.5h1.69a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75v-3.5A.75.75 0 0 1 2.75 9ZM2.75 7a.75.75 0 0 0 .75-.75V4.56l2.22 2.22a.75.75 0 0 0 1.06-1.06L4.56 3.5h1.69a.75.75 0 0 0 0-1.5h-3.5a.75.75 0 0 0-.75.75v3.5c0 .414.336.75.75.75ZM13.25 9a.75.75 0 0 0-.75.75v1.69l-2.22-2.22a.75.75 0 1 0-1.06 1.06l2.22 2.22H9.75a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 .75-.75v-3.5a.75.75 0 0 0-.75-.75ZM13.25 7a.75.75 0 0 1-.75-.75V4.56l-2.22 2.22a.75.75 0 1 1-1.06-1.06l2.22-2.22H9.75a.75.75 0 0 1 0-1.5h3.5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-.75.75Z" clip-rule="evenodd" />
+              </svg>
+              <p class="text-gray-900"><%=@space.area%> sf</p>
+            </span>
+          </span>
+          <%= render 'components/button', button_link: "#", text_color: 'white', background_color: 'blue-600', button_text: 'Book a tour', extra_classes: 'my-2 w-full'%>
+        </span>
+
+        <span class="listing_further_details flex justify-between flex-col items-center w-[20%]">
+          <img src="https://i0.wp.com/eventspacesny.com/wp-content/uploads/2023/11/Renovated-Carriage-House-With-Rooftop-09-Event-Spaces-New-York-.webp?fit=1250%2C850&ssl=1" alt="Image 4" class="w-[100px] h-[100px] object-cover rounded-full" />
+          <p class="font-bold mt-2">Ali</p>
+          <p class="text-gray-700">Venue manager</p>
+        </span>
+      </div>
+
+      <!-- About Section -->
+      <div class="mt-6">
+        <h2 class="text-xl font-semibold mb-3">About the <%=@space.name%></h2>
+        <p class="text-gray-700 mb-4"><%=@space.description%></p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Landmark Building:</strong> Built in 1871 with timeless elegance.</li>
+          <li><strong>Versatile Layout:</strong> 2,000-square-foot space with distinct levels.</li>
+          <li><strong>Exclusive Accommodations:</strong> Luxurious suites and facilities.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="bg-white p-6 rounded-lg shadow-lg h-fit">
+      <h3 class="text-xl font-bold mb-4">Inquire</h3>
+      <form>
+        <div class="mb-4">
+          <label for="eventType" class="block text-sm font-medium text-gray-700">Type of Event *</label>
+          <input type="text" id="eventType" class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" required />
+        </div>
+        <div class="mb-4">
+          <label for="eventDate" class="block text-sm font-medium text-gray-700">Event Date *</label>
+          <input type="date" id="eventDate" class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" required />
+        </div>
+        <div class="mb-4">
+          <label for="eventTime" class="block text-sm font-medium text-gray-700">Event Start and End Time *</label>
+          <input type="text" id="eventTime" placeholder="HH:MM AM - HH:MM PM" class="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" required />
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+          Inquire
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white dark:bg-gray-900 text-gray-900 dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
+  <h2 id="accordion-flush-heading-1">
+    <button type="button" class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3" data-accordion-target="#accordion-flush-body-1" aria-expanded="true" aria-controls="accordion-flush-body-1">
+      <span>What is Flowbite?</span>
+      <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+      </svg>
+    </button>
+  </h2>
+  <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-flush-heading-1">
+    <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+      <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is an open-source library of interactive components built on top of Tailwind CSS including buttons, dropdowns, modals, navbars, and more.</p>
+      <p class="text-gray-500 dark:text-gray-400">Check out this guide to learn how to <a href="/docs/getting-started/introduction/" class="text-blue-600 dark:text-blue-500 hover:underline">get started</a> and start developing websites even faster with components on top of Tailwind CSS.</p>
+    </div>
+  </div>
+  <h2 id="accordion-flush-heading-2">
+    <button type="button" class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3" data-accordion-target="#accordion-flush-body-2" aria-expanded="false" aria-controls="accordion-flush-body-2">
+      <span>Is there a Figma file available?</span>
+      <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+      </svg>
+    </button>
+  </h2>
+  <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
+    <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+      <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first conceptualized and designed using the Figma software so everything you see in the library has a design equivalent in our Figma file.</p>
+      <p class="text-gray-500 dark:text-gray-400">Check out the <a href="https://flowbite.com/figma/" class="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a> based on the utility classes from Tailwind CSS and components from Flowbite.</p>
+    </div>
+  </div>
+  <h2 id="accordion-flush-heading-3">
+    <button type="button" class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 gap-3" data-accordion-target="#accordion-flush-body-3" aria-expanded="false" aria-controls="accordion-flush-body-3">
+      <span>What are the differences between Flowbite and Tailwind UI?</span>
+      <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+      </svg>
+    </button>
+  </h2>
+  <div id="accordion-flush-body-3" class="hidden" aria-labelledby="accordion-flush-heading-3">
+    <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+      <p class="mb-2 text-gray-500 dark:text-gray-400">The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.</p>
+      <p class="mb-2 text-gray-500 dark:text-gray-400">However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.</p>
+      <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
+      <ul class="ps-5 text-gray-500 list-disc dark:text-gray-400">
+        <li><a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite Pro</a></li>
+        <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('photoModal');
+  const openModalBtn = document.getElementById('seeMorePhotosBtn');
+  const closeModalBtn = document.getElementById('closeModal');
+  closeModalBtn.innerHTML = `<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'             fill='currentColor' class='bi bi-x-lg' viewBox='0 0 16 16'>
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                </svg>`;
+
+  if (openModalBtn) {
+    openModalBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    });
+  }
+
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+    }
+  });
+</script>

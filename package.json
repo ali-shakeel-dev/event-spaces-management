@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  },
+  "dependencies": {
+    "@rails/actiontext": "^8.0.100",
+    "flowbite": "^2.5.2",
+    "trix": "^2.1.12"
+  }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= content_for(:title) || "Event Spaces" %></title>
+  <meta name="description" content="<%= content_for(:description) || "Discover a wide range of event spaces for all types of occasions. Browse and book the ideal venue for weddings, parties, conferences, and more. Explore unique venues and easy booking with our Event Spaces app." %>">
+  <%= favicon_link_tag 'favicon.png' %> 
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <%=render 'components/navbar'%>
+  <div class="px-5 mx-auto max-w-[1300px]">
+    <%= yield %>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+</body>
+
+</html>
