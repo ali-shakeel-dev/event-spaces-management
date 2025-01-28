@@ -3,7 +3,8 @@ source "https://rubygems.org"
 # My custom gems
 gem 'friendly_id', '~> 5.5.0'
 # My custom gems end here
-gem 'rails_12factor', group: :production
+gem 'sassc-rails'
+gem 'uglifier' # Optional, for JS compression
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.2", ">= 7.2.2.1"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
