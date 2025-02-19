@@ -24,6 +24,8 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 5
+  database: go-venues-database
   username: postgres
   password: go_venues_db
   host: go-venues-database.cbke20q08g0v.ap-south-1.rds.amazonaws.com
+  port: 5432
